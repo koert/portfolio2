@@ -1,0 +1,71 @@
+== Kotlin vs. Java
+I use Kotlin instead of Java in this project to evaluate the differences between the languages.
+
+=== Data class
+Kotlin makes it very easy to create dumb data classes. Even if you make the class members public in Java, it is still much more verbose.
+.Java
+[source,java]
+----
+public class StockLatestPriceResponse {
+  public String symbol;
+  public BigDecimal latestPrice;
+
+  public StockLatestPriceResponse() {
+  }
+
+  public StockLatestPriceResponse(String symbol, BigDecimal latestPrice) {
+    this.symbol = symbol;
+    this.latestPrice = latestPrice;
+  }
+}
+----
+
+.Kotlin
+[source,java]
+----
+class StockLatestPriceResponse(val symbol: String, val name: String, val latestPrice: BigDecimal) {
+}
+----
+
+=== Nullpointer checking
+
+.Java
+[source,java]
+----
+  @Path("/{symbol}/latestPrice")
+  @GET
+  public Response stock(@PathParam("symbol") String symbol) throws IOException {
+    Stock stock = YahooFinance.get(symbol);
+    Response response = null;
+    if (stock == null) {
+      response = Response.status(Response.Status.NOT_FOUND).build();
+    } else {
+      StockLatestPriceResponse stockResponse = new StockLatestPriceResponse(stock.getSymbol(), stock.getQuote().getPrice());
+      response = Response.ok(stockResponse).build();
+    }
+    return response;
+  }
+----
+
+.Kotlin
+[source,java]
+----
+  @Path("/{symbol}/latestPrice")
+  @GET
+  @Throws(IOException::class)
+  fun stock(@PathParam("symbol") symbol: String): Response {
+    val stock: Stock? = YahooFinance.get(symbol)
+    val response: Response = if (stock == null) {
+      Response.status(Response.Status.NOT_FOUND).build()
+    } else {
+      val stockResponse = StockLatestPriceResponse(stock.symbol, stock.name, stock.quote.price)
+      Response.ok(stockResponse).build()
+    }
+    return response
+  }
+----
+
+Here the code is about the same size, but the greatest difference is in handling potential null pointers. The variable "stock" could be
+null and it is explicitly labeled as such. The response is result from the if statement, which is an expression in Kotlin and makes it
+easy to see how response is determined.
+
