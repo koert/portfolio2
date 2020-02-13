@@ -8,6 +8,9 @@ import zencode.portfolio.stock.portfoliodb.StockPosition
  * @author Koert Zeilstra
  */
 @RegisterForReflection
-class PortfolioResponse(val positions: List<StockPosition>) {
-  constructor() : this(listOf()) {}
+data class PortfolioResponse(var positions: List<StockPosition>? = null) {
+//  override fun toString(): String {
+//    return "PortfolioResponse(positions=$positions)"
+//  }
+
 }

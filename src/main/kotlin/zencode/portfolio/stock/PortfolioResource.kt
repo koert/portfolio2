@@ -46,7 +46,10 @@ class PortfolioResource {
   @PUT
   @Throws(IOException::class)
   fun savePortfolio(portfolio: PortfolioResponse): Response {
-    portfolioRepository.savePositions(1, portfolio.positions);
+    println("savePortfolio " + portfolio.toString());
+    if (portfolio.positions != null) {
+      portfolioRepository.savePositions(1, portfolio.positions!!);
+    }
     return Response.ok().build()
   }
 }

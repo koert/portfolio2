@@ -5,7 +5,13 @@ import java.math.BigDecimal
 import java.util.*
 
 @RegisterForReflection
-class StockPosition(val userId: Long, val symbol: String, val amount: Int, val buyPrice: BigDecimal, val buyDate: Date,
-                    val latestPrice: BigDecimal, val latestDate: Date) {
-  constructor() : this(1, "", 0, BigDecimal.ZERO, Date(), BigDecimal.ZERO, Date()) {}
+data class StockPosition(var userId: Long? = null, var symbol: String? = null, var amount: Int? = null, var buyPrice: BigDecimal? = null, var buyDate: Date? = null,
+                    var latestPrice: BigDecimal? = null, var latestDate: Date? = null) {
+//  constructor() : this(1, "", 0, BigDecimal.ZERO, Date(), BigDecimal.ZERO, Date()) {}
+//
+//  override fun toString(): String {
+//    return "StockPosition(userId=$userId, symbol='$symbol', amount=$amount, buyPrice=$buyPrice, buyDate=$buyDate, latestPrice=$latestPrice, latestDate=$latestDate)"
+//  }
+
+
 }
